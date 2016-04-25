@@ -1,0 +1,52 @@
+** NO migrar usuarios **
+** dar 777 a sites/default/files **
+** copiar formatos de texto (en mi blog, el «html») **
+
+composer create-project drupal-composer/drupal-project:8.x-dev newblog --stability dev --no-interaction
+
+drupal site:install
+drush en -y migrate migrate_drupal migrate_drupal_ui
+composer require drupal/migrate_upgrade 8.x-2.x-dev
+
+== mis modulos ==
+(en el raíz)
+composer require drupal/extlink 8.x-1.x-dev
+composer require drupal/google_analytics 8.x-2.x-dev
+composer require drupal/honeypot 8.x-1.x-dev
+composer require drupal/mollom 8.x-1.x-dev
+composer require drupal/metatag 8.x-1.x-dev
+composer require drupal/xmlsitemap 8.x-1.x-dev
+composer require drupal/votingapi 8.x-3.x-dev
+composer require drupal/token 8.x-1.x-dev
+composer require drupal/token_filter 8.x-1.x-dev
+composer require drupal/views_infinite_scroll 8.x-1.x-dev
+composer require drupal/coffee 8.x-1.x-dev
+composer require drupal/admin_toolbar:8.x-1.x-dev
+composer require drupal/zurb_foundation:8.x-5.x-dev
+
+
+drush en coffee extlink google_analytics honeypot mollom metatag xmlsitemap big_pipe
+         votingapi token token_filter views_infinite_scroll migrate_upgrade migrate_plus
+== end mis modulos ==
+
+navegar a /upgrade
+
+composer dump-autoload --optimize
+
+
+--- ya tenemos todo importado
+
+* sudo vim sites/default/settings.php →
+    $settings['trusted_host_patterns'] = array(
+      '^blog\.leandro\.org$',
+      '^leanblog8\.dev$',
+    );
+
+* sudo chmod 664 sites/default/services.yml
+
+
+
+-- actualizar core y modulos
+
+ * composer up
+ * composer update drupal/core
