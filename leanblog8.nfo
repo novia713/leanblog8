@@ -50,3 +50,9 @@ composer dump-autoload --optimize
 
  * composer up
  * composer update drupal/core
+
+
+-- hostgator
+
+ * /opt/php70/bin/php ~/composer.phar update
+ * /opt/php70/bin/php drupal.phar settings:set language es
